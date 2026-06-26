@@ -8,4 +8,8 @@
 #       skills:
 #         - path: path/to/skill-directory
 #
-sources: []
+sources:
+  - repo: https://github.com/RedHatProductSecurity/prodsec-skills
+    ref: main
+    skills:
+      - path: module/skills/semgrep
