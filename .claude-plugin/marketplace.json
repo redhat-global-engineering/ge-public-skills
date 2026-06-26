@@ -1,5 +1,10 @@
 {
   "name": "ge-public-skills",
-  "owner": "RedHatProductSecurity",
-  "plugins": []
+  "owner": {
+    "name": "Red Hat Global Engineering"
+  },
+  "plugins": [],
+  "metadata": {
+    "description": "Curated AI coding assistant skills for Red Hat engineering"
+  }
 }
