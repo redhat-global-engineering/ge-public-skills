@@ -22,9 +22,7 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: Generate marketplace.json
-        run: |
-          export PYTHONPATH="${GITHUB_WORKSPACE}/skills-registry:${PYTHONPATH}"
-          python scripts/generate.py marketplace
+        run: python scripts/generate.py marketplace
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"

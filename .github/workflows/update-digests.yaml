@@ -29,9 +29,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Update digests
-        run: |
-          export PYTHONPATH="${GITHUB_WORKSPACE}/skills-registry:${PYTHONPATH}"
-          python scripts/update_digests.py
+        run: python scripts/update_digests.py
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Commit and push if changed

@@ -31,9 +31,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pip install -r site/requirements.txt
       - name: Generate site content
-        run: |
-          export PYTHONPATH="${GITHUB_WORKSPACE}/skills-registry:${PYTHONPATH}"
-          python scripts/generate.py site
+        run: python scripts/generate.py site
       - name: Build MkDocs
         run: cd site && mkdocs build --strict --site-dir ../public
       - uses: actions/upload-pages-artifact@v4
