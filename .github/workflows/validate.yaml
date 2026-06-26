@@ -1,0 +1,37 @@
+# .github/workflows/validate.yaml
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Validate registry schema
+        run: |
+          export PYTHONPATH="${GITHUB_WORKSPACE}/skills-registry:${PYTHONPATH}"
+          python -c "
+          from scripts.validate_registry import load_registry, load_schema, validate_schema, check_duplicates, check_categories
+          import sys
+          registry = load_registry('registry.yaml')
+          schema = load_schema('skills-registry/schema/registry.schema.json')
+          errors = validate_schema(registry, schema)
+          errors += check_duplicates(registry)
+          errors += check_categories(registry)
+          if errors:
+              for e in errors:
+                  print(e, file=sys.stderr)
+              sys.exit(1)
+          print('Registry validation passed')
+          "

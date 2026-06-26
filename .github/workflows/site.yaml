@@ -1,0 +1,51 @@
+# .github/workflows/site.yaml
+name: Deploy Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "registry.yaml"
+      - "site/**"
+      - "scripts/generate.py"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pip install -r site/requirements.txt
+      - name: Generate site content
+        run: |
+          export PYTHONPATH="${GITHUB_WORKSPACE}/skills-registry:${PYTHONPATH}"
+          python scripts/generate.py site
+      - name: Build MkDocs
+        run: cd site && mkdocs build --strict --site-dir ../public
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

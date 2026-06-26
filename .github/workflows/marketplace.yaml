@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "skills/**"
+      - "registry.yaml"
 
 permissions:
   contents: write
@@ -15,12 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          submodules: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python scripts/generate_marketplace.py
-      - name: Commit marketplace.json if changed
+      - name: Generate marketplace.json
+        run: |
+          export PYTHONPATH="${GITHUB_WORKSPACE}/skills-registry:${PYTHONPATH}"
+          python scripts/generate.py marketplace
+      - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
