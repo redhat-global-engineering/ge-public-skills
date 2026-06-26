@@ -1,0 +1,34 @@
+# .github/workflows/sync.yaml
+name: Sync Skills
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # Daily at 06:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - sync-manifest.yaml
+      - "scripts/**"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - run: python scripts/sync.py
+        env:
+          GH_TOKEN: ${{ github.token }}

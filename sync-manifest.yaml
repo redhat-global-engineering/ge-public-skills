@@ -1,0 +1,11 @@
+# Declares which skills to sync from upstream repositories.
+# See AGENTS.md for details on how this file drives the sync automation.
+#
+# Format:
+#   sources:
+#     - repo: https://github.com/org/repo
+#       ref: main
+#       skills:
+#         - path: path/to/skill-directory
+#
+sources: []
