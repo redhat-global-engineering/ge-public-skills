@@ -8,6 +8,7 @@ on:
       - "registry.yaml"
       - "site/**"
       - "scripts/generate.py"
+  workflow_dispatch:
 
 permissions:
   contents: read
