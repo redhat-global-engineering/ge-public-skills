@@ -1,61 +1,59 @@
 # ge-public-skills
 
-A curated, automatically-synced collection of AI coding assistant skills for use with [Claude Code](https://claude.ai/code), [Cursor](https://cursor.sh/), [Lola](https://github.com/LobsterTrap/lola), and other tools that support the [AgentSkills.io](https://agentskills.io/) standard.
+A curated registry of AI coding assistant skills for use with
+[Claude Code](https://claude.ai/code) and other tools that support the
+[AgentSkills.io](https://agentskills.io/) standard.
 
-Skills are drawn from upstream open-source repositories maintained by Red Hat teams. Automation syncs selected skills into this repo, where they're available for direct use or installation via plugin marketplaces.
+Skills are drawn from upstream open-source repositories maintained by Red Hat
+teams. Each plugin is pinned by commit SHA and validated nightly.
+
+**[Browse the catalog](https://redhat-global-engineering.github.io/ge-public-skills)**
 
 ## Using these skills
 
 **Claude Code (plugin marketplace):**
 ```bash
-/plugin marketplace add https://github.com/redhat-global-engineering/ge-public-skills.git
-/plugin install <skill-name>
+claude plugin marketplace add redhat-global-engineering/ge-public-skills
+/plugin install <plugin-name>@ge-public-skills
 ```
 
 **Clone directly:**
 ```bash
-git clone https://github.com/redhat-global-engineering/ge-public-skills.git
-# Skills are in skills/<skill-name>/SKILL.md
-```
-
-**Lola:**
-```bash
-lola mod add https://github.com/redhat-global-engineering/ge-public-skills.git
-lola install <skill-name>
+git clone --recurse-submodules https://github.com/redhat-global-engineering/ge-public-skills.git
 ```
 
 ## How it works
 
-1. [`sync-manifest.yaml`](sync-manifest.yaml) declares which skills to pull from which upstream repos
-2. A daily GitHub Actions workflow clones each upstream, compares content, and pushes updated skills directly to main
-3. Skills removed from the manifest are automatically deleted
-4. Post-merge, [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) is regenerated
+1. [`registry.yaml`](registry.yaml) declares plugins and their source repos,
+   each pinned by commit SHA
+2. A nightly GitHub Actions workflow resolves the latest SHA for each plugin's
+   branch
+3. If the new SHA passes linting, the registry is updated automatically
+4. If linting fails, a GitHub issue is filed with error details
+5. On each registry update, the marketplace file and documentation site are
+   regenerated
 
-## Adding a skill
+## Adding a plugin
 
-Open a PR that adds an entry to [`sync-manifest.yaml`](sync-manifest.yaml):
+Open a PR that adds an entry to [`registry.yaml`](registry.yaml):
 
 ```yaml
-sources:
-  - repo: https://github.com/org/repo
-    ref: main
+plugins:
+  - name: my-plugin
+    description: What it does
+    version: "1.0.0"
+    category: category-key
+    source:
+      type: github
+      repo: org/repo
+      ref: main
     skills:
-      - path: path/to/skill-directory
+      - name: my-skill
+        description: What this skill does
 ```
 
-You only need to edit the manifest — don't include the skill content in your PR. CI will automatically fetch the skill from the upstream repo and lint it. If the upstream skill fails lint, CI will tell you what needs to be fixed upstream before it can be included.
-
-Once merged, the sync workflow will clone the upstream and commit the skill content.
-
-## Layout
-
-```
-skills/<skill-name>/
-├── SKILL.md              # Primary skill file (AgentSkills.io format)
-├── references/           # Optional supporting docs
-├── scripts/              # Optional helper scripts
-└── evals/                # Optional evaluation cases
-```
+The `sha` field will be filled in automatically by the nightly workflow once
+your PR is merged.
 
 ## License
 

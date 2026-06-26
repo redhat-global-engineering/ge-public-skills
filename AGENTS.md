@@ -2,70 +2,105 @@
 
 ## What this repo is
 
-A curated, automatically-synced collection of generally-useful AI coding assistant skills drawn from upstream open-source repositories. Skills are declared in `sync-manifest.yaml` and synced by CI automation that opens per-skill PRs with auto-merge.
+A curated registry of AI coding assistant skills from upstream open-source
+repositories. Skills are declared in `registry.yaml`, pinned by commit SHA
+digest, and validated nightly. The registry produces a Claude Code marketplace
+file and a GitHub Pages documentation site.
 
-## Skill layout
+Uses [opendatahub-io/skills-registry](https://github.com/opendatahub-io/skills-registry)
+as a git submodule for validation, marketplace generation, and site generation.
 
-Skills follow the [AgentSkills.io](https://agentskills.io/) standard:
+## Architecture
 
-```
-skills/<skill-name>/
-├── SKILL.md              # Primary skill file (required)
-├── references/           # Optional supporting docs
-├── scripts/              # Optional helper scripts
-└── evals/                # Optional evaluation cases
-```
+`registry.yaml` is the source of truth. It declares plugins hosted in external
+repos, each pinned by a 40-character commit SHA. No skill files are stored
+locally — the registry is a collection of references.
 
-The `name` field in SKILL.md frontmatter must match the directory name (kebab-case).
+### Nightly digest updates
 
-## How skills get here
+A GitHub Actions cron job (`update-digests.yaml`) runs daily at 06:00 UTC:
 
-1. A contributor opens a PR that adds an entry to `sync-manifest.yaml`
-2. The Lint CI workflow fetches the new skill from the upstream repo and lints it (without committing it to the PR)
-3. If lint passes, a maintainer merges the PR
-4. The Sync workflow runs post-merge, clones the upstream, and commits the skill content to `skills/`
-5. Post-merge, `.claude-plugin/marketplace.json` is regenerated
+1. Resolves the latest commit SHA for each plugin's declared branch
+2. If the SHA has changed, clones the repo and runs the full lint pipeline
+3. If linting passes, updates the SHA in `registry.yaml` and pushes to main
+4. If linting fails, files or updates a GitHub issue tagged `digest-update-failure`
 
-### Adding a new skill
+### Generated artifacts
 
-Open a PR that adds an entry to `sync-manifest.yaml`:
+All generated from `registry.yaml`:
+
+- `.claude-plugin/marketplace.json` — Claude Code plugin marketplace
+- `site/` — MkDocs Material documentation site (deployed to GitHub Pages)
+- `catalog.md` — Human-readable skill catalog
+
+## registry.yaml format
 
 ```yaml
-sources:
-  - repo: https://github.com/org/repo
-    ref: main
+name: ge-public-skills
+owner:
+  name: Red Hat Global Engineering
+description: Curated AI coding assistant skills
+categories:
+  category-key:
+    name: Category Name
+    description: What this category covers
+plugins:
+  - name: plugin-name
+    description: What this plugin does
+    version: "1.0.0"
+    category: category-key
+    source:
+      type: github
+      repo: org/repo
+      ref: main
+      sha: <40-char commit SHA>
     skills:
-      - path: path/to/skill-directory
+      - name: skill-name
+        description: What this skill does
 ```
 
-CI will automatically fetch the skill from the upstream repo and lint it. You don't need to include the skill content in your PR — only the manifest entry. If the upstream skill fails lint, CI will tell you what to fix upstream before the skill can be included.
+### Adding a new plugin
 
-## What you should know when working here
+Open a PR that adds an entry to `registry.yaml`. CI will validate the schema.
+Once merged, the nightly workflow will resolve the SHA and run linting.
 
-- **Never modify files under `skills/` directly.** They are mirrors of upstream content and will be overwritten on the next sync. To change which skills are included, edit `sync-manifest.yaml`.
-- **Linting rules** (enforced by `scripts/lint.py` on every PR):
-  1. No duplicate skill directory names across all sources
-  2. Every `skills/<name>/` directory contains a SKILL.md
-  3. SKILL.md has valid YAML frontmatter with non-empty `name` and `description`
-  4. Frontmatter `name` matches the directory name
-  5. `sync-manifest.yaml` is valid: all entries have `repo`, `ref`, `path`; no duplicate paths
-- **Future linting** (not yet implemented): `skillsaw lint --strict`, evals presence check
+For plugins from repos without `.claude-plugin/plugin.json`, set `strict: false`
+and specify `skills_dir`.
+
+## Validation
+
+Three layers of validation run on each plugin:
+
+1. **Schema validation** — JSON schema check on `registry.yaml` structure
+2. **Contract validation** — Canonical functions, metrics, problem statements
+3. **Custom linters** (`scripts/custom_linters.py`) — SKILL.md presence,
+   frontmatter validity, name-directory match
 
 ## Commands
 
 ```bash
-# Lint all skills and the manifest
-python scripts/lint.py
-
-# Generate marketplace.json from current skills/
-python scripts/generate_marketplace.py
-
 # Run tests
-pytest tests/
+pytest tests/ -v
+
+# Generate marketplace.json
+PYTHONPATH=skills-registry python scripts/generate.py marketplace
+
+# Generate MkDocs site
+PYTHONPATH=skills-registry python scripts/generate.py site
+
+# Generate everything
+PYTHONPATH=skills-registry python scripts/generate.py all
+
+# Update digests (usually run by CI)
+PYTHONPATH=skills-registry python scripts/update_digests.py
+
+# Dry-run digest update
+PYTHONPATH=skills-registry python scripts/update_digests.py --dry-run
 ```
 
 ## What NOT to do
 
-- Do not manually add skill directories under `skills/` — use `sync-manifest.yaml`
-- Do not edit synced skill content — changes will be overwritten
 - Do not manually edit `.claude-plugin/marketplace.json` — it is auto-generated
+- Do not manually edit generated site files under `site/docs/plugins/` or
+  `site/docs/categories/` — they are auto-generated
+- Do not edit files in the `skills-registry/` submodule — it tracks upstream
