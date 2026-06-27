@@ -56,6 +56,20 @@ def _load_submodule(module_name: str, file_name: str):
             sys.modules.pop("scripts", None)
 
 
+def check_sha_pinning(registry: dict) -> list[str]:
+    """Require every plugin with a git-based source to have a sha field."""
+    errors = []
+    for plugin in registry.get("plugins", []):
+        source = plugin.get("source", {})
+        if source.get("type") in ("github", "git-subdir"):
+            if not source.get("sha"):
+                errors.append(
+                    f"Plugin '{plugin.get('name', '?')}': source must include "
+                    f"a 'sha' field pinning to an exact commit"
+                )
+    return errors
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry", default="registry.yaml")
@@ -74,6 +88,7 @@ def main() -> None:
     errors = validate_mod.validate_schema(registry, schema)
     errors += validate_mod.check_duplicates(registry)
     errors += validate_mod.check_categories(registry)
+    errors += check_sha_pinning(registry)
 
     if errors:
         for e in errors:
