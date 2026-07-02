@@ -30,6 +30,7 @@ def _load_sibling(module_name: str, file_name: str):
 
 _custom_linters = _load_sibling("custom_linters", "custom_linters.py")
 lint_skill_dir = _custom_linters.lint_skill_dir
+run_skillsaw = _custom_linters.run_skillsaw
 
 GIT_TIMEOUT = 120
 
@@ -131,6 +132,7 @@ def run_custom_lints(repo_root: Path, skills_dir: str = "skills") -> list[str]:
     for entry in sorted(skills_path.iterdir()):
         if entry.is_dir():
             errors.extend(lint_skill_dir(entry))
+    errors.extend(run_skillsaw(repo_root))
     return errors
 
 

@@ -1,10 +1,12 @@
 """Tests for custom skill linting checks."""
 
+import json
 import textwrap
+from unittest.mock import patch, MagicMock
 
 import pytest
 
-from scripts.custom_linters import lint_skill_dir
+from scripts.custom_linters import lint_skill_dir, run_skillsaw
 
 
 @pytest.fixture
@@ -106,3 +108,54 @@ class TestNameDirectoryMatch:
     def test_name_matches(self, skill_dir):
         errors = lint_skill_dir(skill_dir)
         assert not errors
+
+
+class TestRunSkillsaw:
+    @patch("scripts.custom_linters.shutil.which", return_value=None)
+    def test_skips_when_not_installed(self, mock_which, tmp_path):
+        errors = run_skillsaw(tmp_path)
+        assert errors == []
+
+    @patch("scripts.custom_linters.subprocess.run")
+    @patch("scripts.custom_linters.shutil.which", return_value="/usr/bin/skillsaw")
+    def test_clean_repo_returns_no_errors(self, mock_which, mock_run, tmp_path):
+        mock_run.return_value = MagicMock(returncode=0, stdout="{}", stderr="")
+        errors = run_skillsaw(tmp_path)
+        assert errors == []
+
+    @patch("scripts.custom_linters.subprocess.run")
+    @patch("scripts.custom_linters.shutil.which", return_value="/usr/bin/skillsaw")
+    def test_violations_returned_as_errors(self, mock_which, mock_run, tmp_path):
+        output = json.dumps({
+            "violations": [
+                {
+                    "rule_id": "agentskill-valid",
+                    "severity": "error",
+                    "message": "Missing required 'description' field",
+                    "file_path": "skills/bad/SKILL.md",
+                },
+            ],
+        })
+        mock_run.return_value = MagicMock(returncode=1, stdout=output, stderr="")
+        errors = run_skillsaw(tmp_path)
+        assert len(errors) == 1
+        assert "agentskill-valid" in errors[0]
+        assert "Missing required" in errors[0]
+        assert "skills/bad/SKILL.md" in errors[0]
+
+    @patch("scripts.custom_linters.subprocess.run")
+    @patch("scripts.custom_linters.shutil.which", return_value="/usr/bin/skillsaw")
+    def test_timeout_returns_error(self, mock_which, mock_run, tmp_path):
+        import subprocess
+        mock_run.side_effect = subprocess.TimeoutExpired(cmd="skillsaw", timeout=60)
+        errors = run_skillsaw(tmp_path)
+        assert len(errors) == 1
+        assert "timed out" in errors[0]
+
+    @patch("scripts.custom_linters.subprocess.run")
+    @patch("scripts.custom_linters.shutil.which", return_value="/usr/bin/skillsaw")
+    def test_invalid_json_returns_error(self, mock_which, mock_run, tmp_path):
+        mock_run.return_value = MagicMock(returncode=1, stdout="not json", stderr="")
+        errors = run_skillsaw(tmp_path)
+        assert len(errors) == 1
+        assert "non-zero exit" in errors[0]
