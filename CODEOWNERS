@@ -1,0 +1,37 @@
+# CODEOWNERS — ge-public-skills
+#
+# This file follows the CNCF project governance best practice of defining
+# code ownership to ensure appropriate review on all changes.
+# See: https://contribute.cncf.io/maintainers/github/templates/
+#
+# GitHub will automatically request reviews from the owners listed here
+# when a pull request modifies matching files.
+#
+# Ownership model:
+#   - Project leads own the registry, CI, and governance files
+#   - Plugin additions only require one project lead review
+#   - Infrastructure changes (scripts, workflows, submodule) require
+#     review from a project lead
+
+# Default: project leads review everything
+*                                   @ralphbean @angellk
+
+# Registry — the source of truth for all plugins
+registry.yaml                       @ralphbean @angellk
+
+# CI/CD workflows
+.github/                            @ralphbean @angellk
+
+# Build and validation scripts
+scripts/                            @ralphbean @angellk
+
+# Generated artifacts — changes here should come from automation, not PRs
+.claude-plugin/                     @ralphbean @angellk
+site/                               @ralphbean @angellk
+
+# Governance and project docs
+CODEOWNERS                          @ralphbean @angellk
+LICENSE                             @ralphbean @angellk
+README.md                           @ralphbean @angellk
+AGENTS.md                           @ralphbean @angellk
+CLAUDE.md                           @ralphbean @angellk
