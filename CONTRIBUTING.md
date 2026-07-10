@@ -55,7 +55,3 @@ WG leads are listed in CODEOWNERS as required reviewers on `registry.yaml`. One 
 
 ge-common-skills auto-imports everything from this repo via its `registry.yaml` imports block.
 
-## Questions
-
-- **Slack:** `#wg-ge-agentic-sdlc`
-- **WG repo:** [global-engineering/wg-agentic-sdlc](https://gitlab.cee.redhat.com/global-engineering/wg-agentic-sdlc)
