@@ -17,7 +17,7 @@
 *                                   @ralphbean @angellk
 
 # Registry — the source of truth for all plugins
-registry.yaml                       @angellk @cgwalters @cooktheryan @danmacpherson @derekwaynecarr @enxebre @jhjaggars @kgoesche @ralphbean @sidhpurwala-huzaifa
+registry.yaml                       @angellk @cgwalters @cooktheryan @danmacpherson @derekwaynecarr @enxebre @jhjaggars @jwforres @kgoesche @ralphbean @sidhpurwala-huzaifa
 
 # CI/CD workflows
 .github/                            @ralphbean @angellk
