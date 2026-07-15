@@ -86,7 +86,7 @@ plugins:
   license: Apache-2.0
   source:
     type: git-subdir
-    repo: RedHatProductSecurity/prodsec-skills
+    url: https://github.com/RedHatProductSecurity/prodsec-skills.git
     ref: main
     sha: b55c6b9c3392645f62da59a447c29473c413e371
     path: ge-core
