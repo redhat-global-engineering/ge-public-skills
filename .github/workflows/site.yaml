@@ -35,7 +35,7 @@ jobs:
         run: python scripts/generate.py site
       - name: Build MkDocs
         run: cd site && mkdocs build --strict --site-dir ../public
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: public
 
