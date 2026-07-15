@@ -5,16 +5,16 @@
   },
   "plugins": [
     {
-      "version": "1.9.1",
-      "description": "Generic agentic evaluation for skills and agents. Provides end-to-end skills to analyze, test, score, review, and iteratively improve agent skills with MLflow support for experiment tracking, tracing, and reporting.",
-      "homepage": "https://github.com/opendatahub-io/agent-eval-harness",
-      "license": "Apache-2.0",
-      "category": "evaluation",
       "author": {
         "name": "Antonin Stefanutti"
       },
-      "name": "agent-eval-harness",
+      "version": "1.9.1",
+      "license": "Apache-2.0",
+      "description": "Generic agentic evaluation for skills and agents. Provides end-to-end skills to analyze, test, score, review, and iteratively improve agent skills with MLflow support for experiment tracking, tracing, and reporting.",
+      "category": "evaluation",
       "repository": "https://github.com/opendatahub-io/agent-eval-harness",
+      "name": "agent-eval-harness",
+      "homepage": "https://github.com/opendatahub-io/agent-eval-harness",
       "keywords": [
         "evaluation",
         "testing",
@@ -32,16 +32,16 @@
       }
     },
     {
-      "version": "1.0.0",
-      "description": "GE Core \u2014 12 curated security skills for developers writing code daily. Injection defense, web application security, secrets detection, container hardening, OpenShift/Kubernetes access control, dependency auditing, authentication, secure-by-design, audit logging, and AI security.",
-      "homepage": "https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core",
-      "license": "Apache-2.0",
-      "category": "security",
       "author": {
         "name": "Red Hat Product Security"
       },
-      "name": "prodsec-skills-ge-core",
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "description": "GE Core \u2014 12 curated security skills for developers writing code daily. Injection defense, web application security, secrets detection, container hardening, OpenShift/Kubernetes access control, dependency auditing, authentication, secure-by-design, audit logging, and AI security.",
+      "category": "security",
       "repository": "https://github.com/RedHatProductSecurity/prodsec-skills",
+      "name": "prodsec-skills-ge-core",
+      "homepage": "https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core",
       "keywords": [
         "security",
         "secure-development",
@@ -56,7 +56,7 @@
       ],
       "source": {
         "source": "git-subdir",
-        "repo": "RedHatProductSecurity/prodsec-skills",
+        "url": "https://github.com/RedHatProductSecurity/prodsec-skills.git",
         "ref": "main",
         "sha": "b55c6b9c3392645f62da59a447c29473c413e371",
         "path": "ge-core"
