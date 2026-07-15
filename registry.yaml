@@ -6,6 +6,9 @@ categories:
   evaluation:
     name: Evaluation & Testing
     description: Skills for evaluating and testing AI agent skills
+  security:
+    name: Security
+    description: Skills for secure development, security review, and hardening
 plugins:
 - name: agent-eval-harness
   description: Generic agentic evaluation for skills and agents. Provides end-to-end
@@ -59,3 +62,67 @@ plugins:
   python:
     package: agent-eval-harness
     requires_python: '>=3.11'
+- name: prodsec-skills-ge-core
+  description: GE Core — 12 curated security skills for developers writing code
+    daily. Injection defense, web application security, secrets detection, container
+    hardening, OpenShift/Kubernetes access control, dependency auditing, authentication,
+    secure-by-design, audit logging, and AI security.
+  version: "1.0.0"
+  category: security
+  scope: generic
+  tags:
+  - security
+  - secure-development
+  - injection
+  - secrets-detection
+  - container-hardening
+  - kubernetes
+  - openshift
+  - supply-chain
+  - web-security
+  - ai-security
+  author:
+    name: Red Hat Product Security
+  license: Apache-2.0
+  source:
+    type: git-subdir
+    repo: RedHatProductSecurity/prodsec-skills
+    ref: main
+    sha: b55c6b9c3392645f62da59a447c29473c413e371
+    path: ge-core
+  homepage: https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core
+  repository: https://github.com/RedHatProductSecurity/prodsec-skills
+  skills:
+  - name: ai-code-review
+    description: Security-focused review of AI-generated or AI-assisted code, covering
+      failure modes specific to AI code generation
+  - name: ai-systems-security
+    description: Secure AI-powered products and infrastructure — LLM API integration,
+      agent workflows, and MCP servers
+  - name: authentication
+    description: Enforce standard authentication protocols for external data source
+      connections
+  - name: container-hardening
+    description: Harden container images and runtime configuration for Kubernetes
+      and OpenShift
+  - name: dependency-vulnerability-audit
+    description: Supply chain audit using CLI vulnerability scanners, license compliance
+      checks, and risk assessment
+  - name: input-validation-injection
+    description: Prevent SQL, LDAP, and OS command injection and prototype pollution
+      through validation strategy
+  - name: logging
+    description: Enforce audit logging of access to sensitive external data sources
+  - name: pod-access-control
+    description: Kubernetes RBAC bindings, service accounts, namespaces, and resource
+      quotas for least-privilege workloads
+  - name: scc-security
+    description: Review OpenShift Security Context Constraints for correct privilege
+      levels
+  - name: secrets-detection-patterns
+    description: Pattern-based detection of hardcoded secrets in source code, with
+      false-positive filtering
+  - name: secure-by-design
+    description: Apply Secure by Design, by Default, and in Deployment (SD3) principles
+  - name: web-application-security
+    description: OWASP-aligned review of server-side web application security controls
