@@ -19,7 +19,7 @@ jobs:
           submodules: true
           fetch-depth: 0
           ssh-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
