@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "registry.yaml"
+  workflow_dispatch:
 
 permissions:
   contents: write
