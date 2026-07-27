@@ -5,16 +5,16 @@
   },
   "plugins": [
     {
+      "version": "1.9.1",
+      "repository": "https://github.com/opendatahub-io/agent-eval-harness",
+      "homepage": "https://github.com/opendatahub-io/agent-eval-harness",
+      "name": "agent-eval-harness",
       "author": {
         "name": "Antonin Stefanutti"
       },
-      "version": "1.9.1",
       "license": "Apache-2.0",
       "description": "Generic agentic evaluation for skills and agents. Provides end-to-end skills to analyze, test, score, review, and iteratively improve agent skills with MLflow support for experiment tracking, tracing, and reporting.",
       "category": "evaluation",
-      "repository": "https://github.com/opendatahub-io/agent-eval-harness",
-      "name": "agent-eval-harness",
-      "homepage": "https://github.com/opendatahub-io/agent-eval-harness",
       "keywords": [
         "evaluation",
         "testing",
@@ -32,16 +32,16 @@
       }
     },
     {
+      "version": "1.0.0",
+      "repository": "https://github.com/RedHatProductSecurity/prodsec-skills",
+      "homepage": "https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core",
+      "name": "prodsec-skills-ge-core",
       "author": {
         "name": "Red Hat Product Security"
       },
-      "version": "1.0.0",
       "license": "Apache-2.0",
       "description": "GE Core \u2014 12 curated security skills for developers writing code daily. Injection defense, web application security, secrets detection, container hardening, OpenShift/Kubernetes access control, dependency auditing, authentication, secure-by-design, audit logging, and AI security.",
       "category": "security",
-      "repository": "https://github.com/RedHatProductSecurity/prodsec-skills",
-      "name": "prodsec-skills-ge-core",
-      "homepage": "https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core",
       "keywords": [
         "security",
         "secure-development",
@@ -60,7 +60,11 @@
         "ref": "main",
         "sha": "b55c6b9c3392645f62da59a447c29473c413e371",
         "path": "ge-core"
-      }
+      },
+      "strict": false,
+      "skills": [
+        "./."
+      ]
     }
   ],
   "metadata": {
