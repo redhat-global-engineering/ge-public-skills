@@ -12,9 +12,10 @@ categories:
 plugins:
 - name: agent-eval-harness
   description: Generic agentic evaluation for skills and agents. Provides end-to-end
-    skills to analyze, test, score, review, and iteratively improve agent skills with
+    skills to analyze, test, score, review, and iteratively improve agent skills, plus
+    compare models/configurations and run Design-of-Experiments (ANOVA) sweeps, with
     MLflow support for experiment tracking, tracing, and reporting.
-  version: 1.9.1
+  version: 1.33.0
   category: evaluation
   scope: generic
   tags:
@@ -25,40 +26,54 @@ plugins:
   - mlflow
   - optimization
   - scoring
+  - comparison
+  - doe
+  - anova
   author:
     name: Antonin Stefanutti
   license: Apache-2.0
   source:
     type: github
     repo: opendatahub-io/agent-eval-harness
-    ref: v1.9.1
-    sha: 7bc8c66706da23c93bb9555af8d7dbf62c8a0c60
+    ref: v1.33.0
+    sha: cb5f5cb4eb683b81f763dd7aadab7a13d1293bb0
   homepage: https://github.com/opendatahub-io/agent-eval-harness
   repository: https://github.com/opendatahub-io/agent-eval-harness
   skills:
   - name: eval-setup
-    description: One-time environment setup for evaluation (dependencies, MLflow,
-      API keys)
+    description: Optional environment configurator that verifies dependencies, API
+      keys, and MLflow tracking, and suggests evaluation modes based on repository
+      contents
   - name: eval-analyze
-    description: Deep-read a target skill and generate eval.yaml configuration with
-      dataset schemas and judges
+    description: Deep-read a target skill (or run a custom analysis prompt) and generate
+      a complete eval.yaml with dataset schema, outputs, judges, models, and thresholds
   - name: eval-dataset
-    description: Generate realistic test cases from eval.yaml schema (bootstrap, expand,
-      from-traces)
+    description: Generate evaluation test cases for an eval.yaml — from skill analysis,
+      synthetic LLM generation, or MLflow traces — bootstrapping or augmenting a dataset
   - name: eval-run
-    description: Execute skill against test cases, collect artifacts, run judges,
-      and detect regressions
+    description: Execute an evaluation against test cases (skill or prompt mode), score
+      outputs with judges, detect regressions against a baseline, and report results
+  - name: eval-compare
+    description: Compare eval results across models or runs — discover a directory of
+      run artifacts and generate a tabbed HTML report with model cards, quality/cost
+      tables, and per-case breakdowns
+  - name: eval-anova
+    description: Design-of-Experiments (DoE) evaluation — fan a matrix of agent configs
+      across shared cases, then run repeated-measures/mixed-effects ANOVA (F, p, effect
+      size) plus a cost/quality Pareto
   - name: eval-review
-    description: Human-in-the-loop review of scores and outputs with qualitative feedback
-      collection
+    description: Interactive human-in-the-loop review of judge scores and skill outputs
+      that captures qualitative feedback and proposes SKILL.md improvements
   - name: eval-mlflow
-    description: Bidirectional MLflow sync for results, datasets, and feedback
+    description: Bidirectional MLflow integration — sync datasets, log run params/metrics/traces,
+      and push/pull judge and human feedback
   - name: eval-optimize
-    description: Automated improvement loop that identifies failures, edits SKILL.md,
-      and re-runs with regression checks
+    description: Automated improvement loop that identifies judge failures, edits SKILL.md,
+      and re-runs with regression checks until judges pass
   - name: eval-check
     description: Full-harness configuration health check - scans skills, commands,
-      CLAUDE.md, and hooks for redundancy, overlap, and structural issues
+      CLAUDE.md, and hooks for redundancy, overlap, misclassification, and structural
+      issues
   python:
     package: agent-eval-harness
     requires_python: '>=3.11'
