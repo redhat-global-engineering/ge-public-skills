@@ -5,16 +5,16 @@
   },
   "plugins": [
     {
-      "version": "1.9.1",
+      "license": "Apache-2.0",
       "repository": "https://github.com/opendatahub-io/agent-eval-harness",
-      "homepage": "https://github.com/opendatahub-io/agent-eval-harness",
+      "category": "evaluation",
+      "version": "1.33.0",
+      "description": "Generic agentic evaluation for skills and agents. Provides end-to-end skills to analyze, test, score, review, and iteratively improve agent skills, plus compare models/configurations and run Design-of-Experiments (ANOVA) sweeps, with MLflow support for experiment tracking, tracing, and reporting.",
       "name": "agent-eval-harness",
       "author": {
         "name": "Antonin Stefanutti"
       },
-      "license": "Apache-2.0",
-      "description": "Generic agentic evaluation for skills and agents. Provides end-to-end skills to analyze, test, score, review, and iteratively improve agent skills with MLflow support for experiment tracking, tracing, and reporting.",
-      "category": "evaluation",
+      "homepage": "https://github.com/opendatahub-io/agent-eval-harness",
       "keywords": [
         "evaluation",
         "testing",
@@ -22,26 +22,29 @@
         "agents",
         "mlflow",
         "optimization",
-        "scoring"
+        "scoring",
+        "comparison",
+        "doe",
+        "anova"
       ],
       "source": {
         "source": "github",
         "repo": "opendatahub-io/agent-eval-harness",
-        "ref": "v1.9.1",
-        "sha": "7bc8c66706da23c93bb9555af8d7dbf62c8a0c60"
+        "ref": "v1.33.0",
+        "sha": "cb5f5cb4eb683b81f763dd7aadab7a13d1293bb0"
       }
     },
     {
-      "version": "1.0.0",
+      "license": "Apache-2.0",
       "repository": "https://github.com/RedHatProductSecurity/prodsec-skills",
-      "homepage": "https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core",
+      "category": "security",
+      "version": "1.0.0",
+      "description": "GE Core \u2014 12 curated security skills for developers writing code daily. Injection defense, web application security, secrets detection, container hardening, OpenShift/Kubernetes access control, dependency auditing, authentication, secure-by-design, audit logging, and AI security.",
       "name": "prodsec-skills-ge-core",
       "author": {
         "name": "Red Hat Product Security"
       },
-      "license": "Apache-2.0",
-      "description": "GE Core \u2014 12 curated security skills for developers writing code daily. Injection defense, web application security, secrets detection, container hardening, OpenShift/Kubernetes access control, dependency auditing, authentication, secure-by-design, audit logging, and AI security.",
-      "category": "security",
+      "homepage": "https://github.com/RedHatProductSecurity/prodsec-skills/tree/main/ge-core",
       "keywords": [
         "security",
         "secure-development",
