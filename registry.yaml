@@ -143,3 +143,88 @@ plugins:
     description: Apply Secure by Design, by Default, and in Deployment (SD3) principles
   - name: web-application-security
     description: OWASP-aligned review of server-side web application security controls
+- name: qualityflow
+  description: AI-powered test planning and code generation framework. Automates the
+    full test engineering lifecycle — from Jira ticket or GitHub issue to working test
+    code — with automated QE review, structured verdicts, and multi-project configuration.
+  version: "1.0.0"
+  category: evaluation
+  scope: generic
+  tags:
+  - testing
+  - test-planning
+  - code-generation
+  - quality-engineering
+  - jira
+  - evaluation
+  - review
+  author:
+    name: Red Hat QE Data Science
+  license: Apache-2.0
+  source:
+    type: github
+    repo: redhat-community-ai-tools/qualityflow
+    ref: main
+    sha: 95a4eef8630e6b84eef289d9bc84ddee04449a6a
+  homepage: https://github.com/redhat-community-ai-tools/qualityflow
+  repository: https://github.com/redhat-community-ai-tools/qualityflow
+  skills:
+  - name: project-resolver
+    description: Multi-project config routing — resolves Jira prefix or GitHub repo
+      to project configuration
+  - name: requirement-mapper
+    description: Extract and map Jira acceptance criteria to testable requirements
+  - name: scenario-builder
+    description: Generate test scenarios from mapped requirements with priority and
+      tier classification
+  - name: tier-classifier
+    description: Classify test scenarios into project-defined tiers based on scope
+      and complexity
+  - name: test-strategy-resolver
+    description: Auto-detect language, framework, and test conventions from source
+      repository
+  - name: template-engine
+    description: Render STP and STD documents from templates with project-specific
+      configuration
+  - name: stp-reviewer
+    description: Semantic QE review of STP documents — 7 dimensions, 16 domain rules,
+      structured APPROVED/NEEDS_REVISION verdicts
+  - name: std-generator
+    description: Generate Software Test Description YAML from approved STP documents
+  - name: std-reviewer
+    description: Semantic review of STD documents for STP traceability, pattern correctness,
+      and code generation readiness
+  - name: stub-generator
+    description: Generate test stubs with PSE docstrings in any configured language
+      and framework
+  - name: test-generator
+    description: Fill test stubs with working implementations that compile and pass
+      collection
+  - name: pr-analyzer
+    description: Analyze PR diffs and review comments for test planning context
+  - name: lsp-tracer
+    description: LSP-based call graph tracing for regression impact analysis
+  - name: pii-sanitizer
+    description: Configurable PII redaction in generated documents — customer names,
+      IPs, hostnames
+  - name: comment-classifier
+    description: Classify PR review comments for automated fix routing
+  - name: review-rules-extractor
+    description: Auto-extract project-specific review rules from config files and
+      source repositories
+  - name: feature-finder
+    description: Map code changes to user-facing features via LSP analysis
+  - name: jira-parser
+    description: Normalize Jira issue fields for pipeline consumption
+  - name: link-resolver
+    description: Build dependency graphs from cross-references in issue data
+  - name: output-validator
+    description: Structural validation of generated STP and STD artifacts
+  - name: std-orchestrator
+    description: Coordinate the STD generation pipeline across skills
+  - name: ticket-assessor
+    description: Assess ticket risk and complexity for test planning prioritization
+  - name: table-generator
+    description: Render markdown tables for STP and review report sections
+  - name: pipeline-state
+    description: Track pipeline phase status for error reporting and resumption
